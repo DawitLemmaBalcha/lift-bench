@@ -103,6 +103,8 @@ OPENCODE_API_KEY=... uv run python scripts/run_opencode_go.py \
   --model claude-haiku-5-5 --judge deepseek-v4.1-flash
 ```
 
+`--api openai` selects Go's OpenAI-compatible endpoint, for models such as
+`glm-5.3-flash`; the default `anthropic` endpoint serves `claude-haiku-5-5`.
 Add `--config long_doc_few_constraints` for one split, or `--limit 10` for a subset.
 For any other provider, set `OPENAI_BASE_URL` and `OPENAI_API_KEY` for the judge and
 run the task with `uv run inspect eval` as above.

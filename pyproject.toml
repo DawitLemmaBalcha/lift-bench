@@ -118,3 +118,9 @@ convention = "google"
 
 [tool.uv.sources]
 lift-bench = { git = "https://github.com/AI21Labs/lift-bench", rev = "35e3dafdb1b1d15b66235e9cb09aa737ce1ace8e" }
+
+[tool.uv]
+# lift-bench pins openai<3; its judge path only needs the chat-completions client,
+# which openai 3.x still provides. The override lets the eval use inspect_ai's
+# OpenAI-compatible provider in the same environment.
+override-dependencies = ["openai>=3.4"]

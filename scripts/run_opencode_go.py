@@ -42,6 +42,12 @@ def _api_key() -> str:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--model", default="claude-haiku-5-5", help="model under test")
+    parser.add_argument(
+        "--api",
+        choices=["anthropic", "openai"],
+        default="anthropic",
+        help="which OpenCode Go endpoint serves the model under test",
+    )
     parser.add_argument("--judge", default="deepseek-v4.1-flash", help="judge model")
     parser.add_argument("--config", default=None, help="one split; default all ten")
     parser.add_argument("--limit", type=int, default=None, help="samples to run")
@@ -52,12 +58,20 @@ def main() -> None:
     session = f"lift-bench-{uuid.uuid4()}"
     headers = {"x-opencode-session": session}
 
-    model = get_model(
-        f"anthropic/{args.model}",
-        base_url=ANTHROPIC_URL,
-        api_key=key,
-        default_headers=headers,
-    )
+    if args.api == "anthropic":
+        model = get_model(
+            f"anthropic/{args.model}",
+            base_url=ANTHROPIC_URL,
+            api_key=key,
+            default_headers=headers,
+        )
+    else:
+        model = get_model(
+            f"openai-api/opencode/{args.model}",
+            base_url=OPENAI_URL,
+            api_key=key,
+            default_headers=headers,
+        )
 
     def opencode_client() -> AsyncOpenAI:
         return AsyncOpenAI(
