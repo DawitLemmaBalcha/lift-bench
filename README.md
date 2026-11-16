@@ -92,13 +92,28 @@ uv run inspect eval inspect_lift_bench/lift_bench \
 View logs with `uv run inspect view`. Put `INSPECT_EVAL_MODEL`, `OPENAI_API_KEY` and any
 other provider keys in a `.env` file (git-ignored) to avoid repeating them.
 
+## Running on OpenCode Go
+
+OpenCode Go exposes Anthropic- and OpenAI-compatible endpoints that need an
+`x-opencode-session` routing header. `scripts/run_opencode_go.py` supplies it to both
+the model under test and the judge:
+
+```bash
+OPENCODE_API_KEY=... uv run python scripts/run_opencode_go.py \
+  --model claude-haiku-5-5 --judge deepseek-v4.1-flash
+```
+
+Add `--config long_doc_few_constraints` for one split, or `--limit 10` for a subset.
+For any other provider, set `OPENAI_BASE_URL` and `OPENAI_API_KEY` for the judge and
+run the task with `uv run inspect eval` as above.
+
 ## Differences from the reference implementation
 
 | What changed | Why | Expected effect on scores |
 | --- | --- | --- |
 | The ten splits are one Inspect task, selected with `config`. | Inspect runs one dataset per task; a single task makes per-split metrics comparable in one log. | None; each sample is scored exactly as its split's task. |
 | The task calls the reference `constraint_reward` rather than reimplementing the checks. | The verifiers and judge protocol are the benchmark; forking them invites drift. | None while the pinned revision is used. |
-| The judge is configurable. | The paper's judge (`google/gemma-4-31B-it`) is not available on every endpoint. | Non-zero if the judge differs; report the judge with results. |
+| The judge is configurable. | The paper's judge (`google/gemma-4-31B-it`) is not available on every endpoint. | Non-zero if the judge differs; report the judge with results. The logs in this repository use `deepseek-v4.1-flash`. |
 | A failed check marks the sample unscored. | A missing verdict is not a wrong answer; a zero would bias the mean down silently. | Excluded samples are visible as `unscored` in the log. |
 
 ## Results
