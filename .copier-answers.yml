@@ -1,0 +1,15 @@
+# This file is auto-generated and updated by Copier; do not edit by hand.
+# Run `copier update` to pull in template changes.
+_commit: v2.0.0
+_src_path: gh:Generality-Labs/inspect-evals-template
+author_email: DawitLemmaBalcha@users.noreply.github.com
+author_name: Dawit Lemma Balcha
+eval_description: 'LIFT-Bench: scoped instruction-following for document drafting'
+eval_name: lift-bench
+github_owner: DawitLemmaBalcha
+github_username: DawitLemmaBalcha
+include_examples: false
+layout: single-eval
+license: MIT
+python_version: '3.12'
+use_template_update: true

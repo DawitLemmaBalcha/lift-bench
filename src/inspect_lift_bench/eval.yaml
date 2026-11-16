@@ -1,0 +1,15 @@
+title: "LIFT-Bench: Scoped Instruction-Following for Document Drafting"
+description: |
+  LIFT-Bench evaluates whether a model can follow constraints that are scoped to
+  individual elements of a document outline, rather than to the response as a
+  whole. Each task gives a topic and a nested outline, and attaches verifiable
+  and judged constraints to specific sections. It reports a weighted constraint
+  score per split, factored by document size and constraint density.
+arxiv: https://arxiv.org/abs/2610.28819
+group: Writing
+contributors:
+  - DawitLemmaBalcha
+version: "1-A"
+tasks:
+  - name: lift_bench
+    dataset_samples: 784
