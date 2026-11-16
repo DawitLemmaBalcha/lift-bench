@@ -45,6 +45,7 @@ def main() -> None:
     parser.add_argument("--judge", default="deepseek-v4.1-flash", help="judge model")
     parser.add_argument("--config", default=None, help="one split; default all ten")
     parser.add_argument("--limit", type=int, default=None, help="samples to run")
+    parser.add_argument("--max-connections", type=int, default=16)
     args = parser.parse_args()
 
     key = _api_key()
@@ -73,6 +74,7 @@ def main() -> None:
         lift_bench(config=args.config, judge_model=args.judge),
         model=model,
         limit=args.limit,
+        max_connections=args.max_connections,
         display="plain",
     )
     print(f"status: {log.status}")
